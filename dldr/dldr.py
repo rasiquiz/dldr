@@ -77,7 +77,12 @@ def run():
   slug = extract_slug_from_url(args['<url>'])
   card = get_program_card(slug)
   stream_url = get_asset_link(card)
-  file_name = card['Slug'] if args['--slug-name'] else card['Title'].encode('utf8')
+  if args['--slug-name']:
+    file_name = card['Slug']
+  elif args['--full-name']:
+    file_name =  card['Title'].encode('utf8') + "(" + card['Slug'] + ")"
+  else:
+    file_name =  card['Title'].encode('utf8')
   start_download(stream_url, file_name, args['--output'])
 
 if __name__ == "__main__":
